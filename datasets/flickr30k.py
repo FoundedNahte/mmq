@@ -22,7 +22,7 @@ class Flickr30kEvalDataset(Dataset):
             self.image.append(ann["image"])
             self.img2txt[img_id] = []
             for i, caption in enumerate(ann["caption"]):
-                self.text.append(self.txt_processor(caption))
+                self.text.append(self.txt_processor(caption) if self.text_processor else caption)
                 self.img2txt[img_id].append(txt_id)
                 self.txt2img[txt_id] = img_id
                 txt_id += 1
@@ -34,6 +34,6 @@ class Flickr30kEvalDataset(Dataset):
         image_path = os.path.join(self.image_root, self.annotation[index]["image"].split("/")[-1])
         image = Image.open(image_path).convert("RGB")
 
-        image = self.img_transform(image)
+        image = self.img_transform(image) if self.img_transform else image
 
         return {"image": image, "index": index}
