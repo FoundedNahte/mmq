@@ -34,10 +34,10 @@ if __name__ == "__main__":
         description='Performs VQA evaluation using BLIP2 on VQAv2',
     )
 
-    args.add_argument("--distributed", default=False, type=bool)
-    args.add_argument("--batch_size", default=64, type=int)
-    args.add_argument("--num_workers", default=1, type=int)
-    args.add_argument("--output_dir", default="./output", type=str)
+    parser.add_argument("--distributed", action="store_true")
+    parser.add_argument("--batch_size", default=64, type=int)
+    parser.add_argument("--num_workers", default=1, type=int)
+    parser.add_argument("--output_dir", default="./output", type=str)
 
     args = parser.parse_args()
 
@@ -68,9 +68,7 @@ if __name__ == "__main__":
             sampler=sampler,
             collate_fn=vqav2.collater,
         )
-        model = Blip2ForConditionalGeneration.from_pretrained(
-        "Salesforce/blip2-flan-t5-xl", load_in_8bit=True, torch_dtype=torch.float16, device_map=gpu
-        )
+        model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-flan-t5-xl", device_map=gpu)
 
         inferencer = InferencePipeline(model, gpu, processor)
         scorer = ScoringPipeline()
