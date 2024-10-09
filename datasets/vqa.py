@@ -20,7 +20,7 @@ class VQAv2Eval(Dataset):
         self.annotation_dict = json.load(
             open(os.path.join(ann_root, "v2_mscoco_val2014_annotations.json"))
         )
-        print(len(self.annotation_dict["annotations"]))
+        
         self.annotations = self.annotation_dict["annotations"]
         self.question_dict = json.load(
             open(os.path.join(q_root, "v2_OpenEnded_mscoco_val2014_questions.json"))
