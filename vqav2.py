@@ -68,9 +68,7 @@ if __name__ == "__main__":
             sampler=sampler,
             collate_fn=vqav2.collater,
         )
-        model = Blip2ForConditionalGeneration.from_pretrained(
-        "Salesforce/blip2-flan-t5-xl", load_in_8bit=True, torch_dtype=torch.float16, device_map=gpu
-        )
+        model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-flan-t5-xl", device_map=gpu)
 
         inferencer = InferencePipeline(model, gpu, processor)
         scorer = ScoringPipeline()
